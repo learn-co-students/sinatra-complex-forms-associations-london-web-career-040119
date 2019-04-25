@@ -1,4 +1,4 @@
-class CreatePetsTable < ActiveRecord::Migration
+class CreatePetsTable < ActiveRecord::Migration #inherits from active record of the subclass Migration
   def change
     create_table :pets do |t|
       t.string :name

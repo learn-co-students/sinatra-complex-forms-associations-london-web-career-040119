@@ -1,7 +1,7 @@
-<h1><%=@owner.name%></h1>
+<h1><%=@owner.name%></h1> <!-- html text embeded with ruby between the ruby tags including the = since we want it to be shown  -->
 <h4>Pets:</h4>
 <ul>
-  <%@owner.pets.each do |pet|%>
+  <%@owner.pets.each do |pet|%> <!--open ruby tags for each line of code even if its all in same method/function -->
   <li><%=pet.name%></li>
   <%end%>
 </ul>

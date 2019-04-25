@@ -1,26 +1,59 @@
+#This controller has a set of routes that enable the basic CRUD actions (except for delete –– we don't really care about deleting for the purposes of this exercise).
+
+ # this follows same comments from owners_controllee
+
 class PetsController < ApplicationController
+
+#INDEX
 
   get '/pets' do
     @pets = Pet.all
-    erb :'/pets/index' 
+    erb :'/pets/index'
   end
 
-  get '/pets/new' do 
+  #NEW
+
+  get '/pets/new' do
     erb :'/pets/new'
   end
 
-  post '/pets' do 
+#CREATE - create and redirect
 
-    redirect to "pets/#{@pet.id}"
+  post '/pets' do
+
+        @pet = Pet.create(params[:pet])
+      if !params["owner"]["name"].empty?
+        @pet.owner = Owner.create(name: params["owner"]["name"])
+      end
+        @pet.save
+
+    redirect to "pets/#{@pet.id}" # using the redirect method from sinarta
   end
 
-  get '/pets/:id' do 
+#SHOW
+
+  get '/pets/:id' do
     @pet = Pet.find(params[:id])
     erb :'/pets/show'
   end
 
-  patch '/pets/:id' do 
-
-    redirect to "pets/#{@pet.id}"
+  post '/pets/:id' do
+    @pet = Pet.find(params[:id])
+    @pet.update(params["pet"])
+    if !params["owner"]["name"].empty?
+      @pet.owner = Owner.create(name: params["owner"]["name"])
+    end
+    @pet.save
+    redirect "pets/#{@pet.id}"
   end
+
+
+
+#EDIT
+
+  get '/pets/:id/edit' do
+    @pet = Pet.find(params[:id])
+    erb :'/pets/edit'
+  end
+
 end
